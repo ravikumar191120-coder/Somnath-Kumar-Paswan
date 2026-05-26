@@ -1,0 +1,6 @@
+{
+  "name": "Pyaar Bhari Subha - Good Morning, Babu!",
+  "description": "Ek pyara sa morning greeting and status hub apni babu ke liye. Romantic song player, next meeting countdown, soft Hinglish note generator using Gemini AI, and virtual flowers to make her smile.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
