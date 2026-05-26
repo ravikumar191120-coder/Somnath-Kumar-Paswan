@@ -6,6 +6,7 @@ import LoveLetterBox from "./components/LoveLetterBox";
 import MeetingCountdown from "./components/MeetingCountdown";
 import SongPlayer from "./components/SongPlayer";
 import GFHappinessCenter from "./components/GFHappinessCenter";
+import CutePandaCouple from "./components/CutePandaCouple";
 
 interface FlyingRose {
   id: number;
@@ -18,7 +19,32 @@ interface FlyingRose {
 export default function App() {
   const [activeTab, setActiveTab] = useState<"paigam" | "khushi" | "mulaqat" | "radio">("paigam");
   const [currentTimeStr, setCurrentTimeStr] = useState("");
-  const [greeting, setGreeting] = useState("Uth jaao na my lovely Boki! 💕");
+  const [greeting, setGreeting] = useState("Uth jaao na my lovely Pagli! 💕");
+  
+  // Synchronized romantic names from settings
+  const [names, setNames] = useState({ recipientName: "Lehli", senderName: "Aapka Bacha" });
+
+  useEffect(() => {
+    const loadNames = () => {
+      try {
+        const saved = localStorage.getItem("subha_love_config");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed.recipientName && parsed.senderName) {
+            setNames({
+              recipientName: parsed.recipientName,
+              senderName: parsed.senderName
+            });
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+    };
+    loadNames();
+    const interval = setInterval(loadNames, 1000);
+    return () => clearInterval(interval);
+  }, []);
   
   // Rose collection state synced to localStorage
   const [roseCount, setRoseCount] = useState<number>(() => {
@@ -37,16 +63,16 @@ export default function App() {
     const updateTime = () => {
       const now = new Date();
       const hrs = now.getHours();
-      let sweetGreeting = "Uth jaao na my lovely Boki! 💕";
+      let sweetGreeting = `Uth jaao na my lovely ${names.recipientName}! 💕`;
 
       if (hrs >= 4 && hrs < 12) {
-        sweetGreeting = "Good Morning my ultra gorgeous Boki Cutiee! 🌅 Suno na pagli, jaldi se uth ke smile bhejiye!";
+        sweetGreeting = `Good Morning my ultra gorgeous ${names.recipientName} Cutiee! 🌅 Suno na pagli, jaldi se uth ke smile bhejiye!`;
       } else if (hrs >= 12 && hrs < 16) {
-        sweetGreeting = "Good afternoon my sweet Bacha! ☀️ Dhoop bohot tez hai, isliye time par khaana khao aur aaram karo!";
+        sweetGreeting = `Good afternoon my sweet ${names.recipientName}! ☀️ Time par khaana khao aur thoda aaram karo bacha!`;
       } else if (hrs >= 16 && hrs < 20) {
-        sweetGreeting = "Ek pyaari si shaam Mubarak ho, Babu! 🌇 Kya haal hain aapki boki?";
+        sweetGreeting = `Ek pyaari si haseen shaam Mubarak ho, ${names.recipientName}! 🌇 Kya haal hain aapke bacha?`;
       } else {
-        sweetGreeting = "Aapko ek sukoon bhari sweet dreams waali raat, baby! 🌌 Phone side me rakho aur so jaao bacha!";
+        sweetGreeting = `Aapko ek sukoon bhari sweet dreams waali raat, my lovely ${names.recipientName}! 🌌 Phone side me rakho aur so jaao baby!`;
       }
       setGreeting(sweetGreeting);
 
@@ -64,7 +90,7 @@ export default function App() {
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [names.recipientName]);
 
   // Trigger floating virtual roses across the screen
   const triggerFlyingRoses = () => {
@@ -140,7 +166,7 @@ export default function App() {
           >
             <Clock className="w-3.5 h-3.5 text-rose-500 animate-pulse" />
             <span className="font-mono text-[10.5px] font-semibold text-rose-950 uppercase tracking-wider">
-              Babu's Local Time: {currentTimeStr}
+              {names.recipientName}'s Local Time: {currentTimeStr}
             </span>
           </motion.div>
 
@@ -150,7 +176,7 @@ export default function App() {
             animate={{ y: 0, opacity: 1 }}
             className="font-romantic italic text-3xl sm:text-5xl font-bold text-rose-950 tracking-tight leading-tight pt-1"
           >
-            Good Morning, Babu! ❤️
+            Good Morning, {names.recipientName}! ❤️
           </motion.h1>
           
           <motion.p 
@@ -160,6 +186,16 @@ export default function App() {
           >
             {greeting} Aapka din utna hi haseen aur anmol ho jitni aapki masoom muskaan hai.
           </motion.p>
+
+          {/* Cute Animated Panda Couple Graphic */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="mt-6"
+          >
+            <CutePandaCouple />
+          </motion.div>
         </div>
 
         {/* Tab Controls Navigation */}
@@ -193,46 +229,56 @@ export default function App() {
         </div>
 
         {/* Render Tab Contents */}
-        <div className="transition-all duration-300">
-          {activeTab === "paigam" && (
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-            >
-              <LoveLetterBox onAddRose={triggerFlyingRoses} />
-            </motion.div>
-          )}
+        <div className="relative">
+          <AnimatePresence mode="wait">
+            {activeTab === "paigam" && (
+              <motion.div
+                key="paigam"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+              >
+                <LoveLetterBox onAddRose={triggerFlyingRoses} />
+              </motion.div>
+            )}
 
-          {activeTab === "khushi" && (
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-            >
-              <GFHappinessCenter roseCount={roseCount} onRoseAdded={triggerFlyingRoses} />
-            </motion.div>
-          )}
+            {activeTab === "khushi" && (
+              <motion.div
+                key="khushi"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+              >
+                <GFHappinessCenter roseCount={roseCount} onRoseAdded={triggerFlyingRoses} />
+              </motion.div>
+            )}
 
-          {activeTab === "mulaqat" && (
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-            >
-              <MeetingCountdown />
-            </motion.div>
-          )}
+            {activeTab === "mulaqat" && (
+              <motion.div
+                key="mulaqat"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+              >
+                <MeetingCountdown />
+              </motion.div>
+            )}
 
-          {activeTab === "radio" && (
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-            >
-              <SongPlayer />
-            </motion.div>
-          )}
+            {activeTab === "radio" && (
+              <motion.div
+                key="radio"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+              >
+                <SongPlayer />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Gentle Footer footer note */}

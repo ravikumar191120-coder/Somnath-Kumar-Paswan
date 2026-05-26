@@ -24,7 +24,7 @@ export default function LoveLetterBox({ onAddRose }: LoveLetterBoxProps) {
     }
     return {
       mood: "Cozy & Sweet",
-      recipientName: "Boki",
+      recipientName: "Lehli",
       senderName: "Aapka Bacha"
     };
   });
@@ -77,7 +77,7 @@ export default function LoveLetterBox({ onAddRose }: LoveLetterBoxProps) {
 
   return (
     <div className="w-full max-w-2xl mx-auto my-6" id="love-letter-module">
-      {/* Configuration Header for customizing Girlfriend Name and Senders Name */}
+      {/* Configuration Header for customizing Sweet Pet Names */}
       <div className="bg-white/70 backdrop-blur-md rounded-2xl p-4 mb-6 shadow-sm border border-rose-100/50 flex flex-col md:flex-row items-center justify-between gap-4 transition-all hover:bg-white/80">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-full bg-rose-50 text-rose-500">
@@ -85,10 +85,10 @@ export default function LoveLetterBox({ onAddRose }: LoveLetterBoxProps) {
           </div>
           <div>
             <h3 className="font-sans font-semibold text-rose-950 text-sm">
-              Greeting Customizer (Aapka Pyaar)
+              Our Little Secret Names 🧸💞
             </h3>
-            <p className="text-xs text-rose-700/80 font-sans mt-0.5">
-              Apni gf ka naam aur apna signature set krein:
+            <p className="text-[11px] text-rose-700/80 font-sans mt-0.5 leading-tight">
+              Oye pagli! Agar hamare sweet nicknames change krne hain, toh yahan setup kr lo bacha:
             </p>
           </div>
         </div>
@@ -96,23 +96,23 @@ export default function LoveLetterBox({ onAddRose }: LoveLetterBoxProps) {
         {isEditingNames ? (
           <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
             <div className="flex items-center gap-1.5 bg-rose-50/50 px-2 py-1 rounded-lg border border-rose-100">
-              <span className="text-[10px] text-rose-600 font-medium">Babu:</span>
+              <span className="text-[10px] text-rose-600 font-bold">Lehli (You):</span>
               <input
                 type="text"
                 value={config.recipientName}
                 onChange={(e) => setConfig({ ...config, recipientName: e.target.value })}
-                className="bg-transparent text-xs text-rose-950 font-medium focus:outline-none w-20 px-1 border-b border-rose-200"
-                placeholder="GF Name"
+                className="bg-transparent text-xs text-rose-950 font-semibold focus:outline-none w-20 px-1 border-b border-rose-200"
+                placeholder="Lehli"
               />
             </div>
             <div className="flex items-center gap-1.5 bg-rose-50/50 px-2 py-1 rounded-lg border border-rose-100">
-              <span className="text-[10px] text-rose-600 font-medium">Aap:</span>
+              <span className="text-[10px] text-rose-600 font-bold">Mera Bacha (Him):</span>
               <input
                 type="text"
                 value={config.senderName}
                 onChange={(e) => setConfig({ ...config, senderName: e.target.value })}
-                className="bg-transparent text-xs text-rose-950 font-medium focus:outline-none w-24 px-1 border-b border-rose-200"
-                placeholder="Your Name"
+                className="bg-transparent text-xs text-rose-950 font-semibold focus:outline-none w-24 px-1 border-b border-rose-200"
+                placeholder="Aapka Bacha"
               />
             </div>
             <button
@@ -130,10 +130,10 @@ export default function LoveLetterBox({ onAddRose }: LoveLetterBoxProps) {
           <div className="flex items-center gap-3">
             <div className="text-right text-xs">
               <div className="font-medium text-rose-950">
-                To: <span className="text-rose-600 font-semibold">{config.recipientName}</span>
+                To: <span className="text-rose-600 font-bold">{config.recipientName} 🐼</span>
               </div>
               <div className="text-rose-700 font-normal">
-                From: <span className="text-rose-600 font-semibold">{config.senderName}</span>
+                From: <span className="text-rose-600 font-bold">{config.senderName} 💞</span>
               </div>
             </div>
             <button
@@ -226,8 +226,8 @@ export default function LoveLetterBox({ onAddRose }: LoveLetterBoxProps) {
 
               {/* Envelope Signature */}
               {!loading && (
-                <div className="text-right border-t border-rose-100/50 pt-2 text-xs text-rose-700 font-sans">
-                  Sadaa aapke sath, <span className="font-semibold text-rose-500">{config.senderName}</span>
+                <div className="text-right border-t border-rose-100/50 pt-2 text-xs text-rose-700 font-sans italic font-semibold">
+                  Only yours, 🧸 <span className="text-rose-600 font-bold">{config.senderName} 🐼💞</span>
                 </div>
               )}
             </div>
